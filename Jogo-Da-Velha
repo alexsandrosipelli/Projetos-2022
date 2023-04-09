@@ -1,0 +1,84 @@
+import java.util.Scanner;
+
+public class JogoDaVelha {
+    public static void main(String[] args) {
+        Scanner scanner = new Scanner(System.in);
+        char[][] tabuleiro = {{' ', ' ', ' '}, {' ', ' ', ' '}, {' ', ' ', ' '}};
+        char jogadorAtual = 'X';
+        int jogadas = 0;
+
+        while (true) {
+            // Exibe o tabuleiro
+            System.out.println("\nJogadas: " + jogadas);
+            System.out.println("  1 2 3");
+            System.out.println(" -------");
+            for (int i = 0; i < 3; i++) {
+                System.out.print(i + 1 + "|");
+                for (int j = 0; j < 3; j++) {
+                    System.out.print(tabuleiro[i][j] + "|");
+                }
+                System.out.println();
+                System.out.println(" -------");
+            }
+
+            // Verifica se houve um vencedor ou empate
+            if (verificarVencedor(tabuleiro, jogadorAtual)) {
+                System.out.println("O jogador " + jogadorAtual + " venceu!");
+                break;
+            } else if (jogadas == 9) {
+                System.out.println("Empate!");
+                break;
+            }
+
+            // Pede a jogada do jogador
+            System.out.print("Jogador " + jogadorAtual + ", digite a linha: ");
+            int linha = scanner.nextInt() - 1;
+            System.out.print("Jogador " + jogadorAtual + ", digite a coluna: ");
+            int coluna = scanner.nextInt() - 1;
+
+            // Verifica se a jogada é válida
+            if (linha < 0 || linha > 2 || coluna < 0 || coluna > 2) {
+                System.out.println("Jogada inválida, tente novamente.");
+                continue;
+            } else if (tabuleiro[linha][coluna] != ' ') {
+                System.out.println("Essa posição já foi escolhida, tente novamente.");
+                continue;
+            }
+
+            // Faz a jogada
+            tabuleiro[linha][coluna] = jogadorAtual;
+            jogadas++;
+
+            // Troca o jogador atual
+            jogadorAtual = jogadorAtual == 'X' ? 'O' : 'X';
+        }
+    }
+
+    public static boolean verificarVencedor(char[][] tabuleiro, char jogador) {
+        // Verifica as linhas
+        for (int i = 0; i < 3; i++) {
+            if (tabuleiro[i][0] == jogador && tabuleiro[i][1] == jogador && tabuleiro[i][2] == jogador) {
+                return true;
+            }
+        }
+
+        // Verifica as colunas
+        for (int i = 0; i < 3; i++) {
+            if (tabuleiro[0][i] == jogador && tabuleiro[1][i] == jogador && tabuleiro[2][i] == jogador) {
+                return true;
+            }
+        }
+
+        // Verifica as diagonais
+        if (tabuleiro[0][0] == jogador && tabuleiro[1][1] == jogador && tabuleiro[2][2] == jogador) {
+            return true;
+        }
+        if (tabuleiro[0][2] == jogador && tabuleiro[1][1]
+      == jogador && tabuleiro[2][0] == jogador) {
+            return true;
+        }
+
+        // Se não houver vencedor, retorna falso
+        return false;
+    }
+}
