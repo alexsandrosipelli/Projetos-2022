@@ -1,0 +1,61 @@
+import java.util.Scanner;
+
+public class BatalhaNaval {
+    public static void main(String[] args) {
+        Scanner scanner = new Scanner(System.in);
+
+        // Define as posições dos navios inimigos
+        int[][] naviosInimigos = {{0, 1}, {1, 3}, {3, 0}, {4, 2}};
+
+        // Define o tabuleiro do jogador
+        int[][] tabuleiroJogador = new int[5][5];
+
+        // Loop principal do jogo
+        int acertos = 0;
+        while (acertos < 4) {
+            // Exibe o tabuleiro do jogador
+            System.out.println("Tabuleiro do jogador:");
+            for (int i = 0; i < 5; i++) {
+                for (int j = 0; j < 5; j++) {
+                    if (tabuleiroJogador[i][j] == 0) {
+                        System.out.print("- ");
+                    } else if (tabuleiroJogador[i][j] == 1) {
+                        System.out.print("O ");
+                    } else {
+                        System.out.print("X ");
+                    }
+                }
+                System.out.println();
+            }
+
+            // Lê a posição que o jogador deseja atacar
+            System.out.print("Digite a linha que deseja atacar (0 a 4): ");
+            int linha = scanner.nextInt();
+            System.out.print("Digite a coluna que deseja atacar (0 a 4): ");
+            int coluna = scanner.nextInt();
+
+            // Verifica se o jogador acertou um navio
+            boolean acertou = false;
+            for (int i = 0; i < 4; i++) {
+                if (naviosInimigos[i][0] == linha && naviosInimigos[i][1] == coluna) {
+                    acertou = true;
+                    naviosInimigos[i][0] = -1;
+                    naviosInimigos[i][1] = -1;
+                    acertos++;
+                    System.out.println("Você acertou um navio inimigo!");
+                    break;
+                }
+            }
+
+            // Atualiza o tabuleiro do jogador com o resultado do ataque
+            if (acertou) {
+                tabuleiroJogador[linha][coluna] = 2;
+            } else {
+                tabuleiroJogador[linha][coluna] = 1;
+            }
+        }
+
+        // O jogador venceu o jogo
+        System.out.println("Parabéns, você afundou todos os navios inimigos!");
+    }
+}
